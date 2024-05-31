@@ -22,12 +22,10 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#api-doc">API Doc</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#Features">Features</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
