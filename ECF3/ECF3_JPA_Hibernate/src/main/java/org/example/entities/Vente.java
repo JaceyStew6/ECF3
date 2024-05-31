@@ -62,4 +62,15 @@ public class Vente {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
+    //TODO Régler problème avec le toString (erreur dès que je l'ajoute). Semble boucler
+//    @Override
+//    public String toString() {
+//        return "Vente{" +
+//                "saleId=" + saleId +
+//                ", saleStatus=" + saleStatus +
+//                ", customer=" + customer +
+//                ", products=" + products +
+//                '}';
+//    }
 }

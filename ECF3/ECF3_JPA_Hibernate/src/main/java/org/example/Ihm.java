@@ -1,9 +1,6 @@
 package org.example;
 
-import org.example.entities.Customer;
-import org.example.entities.Product;
-import org.example.entities.ProductCategory;
-import org.example.entities.Vente;
+import org.example.entities.*;
 import org.example.services.CustomerService;
 import org.example.services.ProductService;
 import org.example.services.SaleService;
@@ -108,19 +105,80 @@ public class Ihm {
         int stock = scanner.nextInt();
         scanner.nextLine();
 
-        Product o = new Product();
-        o.setDescription(desc);
-        o.setProductCategory(ProductCategory.valueOf(String.valueOf(cat)));
-        o.setSize(size);
-        o.setPrice(price);
-        o.setStock(stock);
+        Product p = new Product();
+        p.setDescription(desc);
+        p.setProductCategory(ProductCategory.valueOf(String.valueOf(cat)));
+        p.setSize(size);
+        p.setPrice(price);
+        p.setStock(stock);
 
-        productService.create(o);
+        productService.create(p);
     }
 
     private void updateProduct(){
-        //TODO updateProduct
+        System.out.println("###### Produit à modifier ######");
+        System.out.println("Saisissez l'id du produit ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Product p = productService.findById(id);
+        if (p != null){
+            String choice;
+            do {
+                menuUpdateProduct();
+                choice = scanner.nextLine();
+                switch (choice){
+                    case "1" :
+                        System.out.println("Entrer un nouveau descriptif");
+                        String desc = scanner.nextLine();
+                        p.setDescription(desc);
+                        productService.update(p);
+                        break;
+                    case "2" :
+                        System.out.println("Entrer un nouveau prix");
+                        double price = scanner.nextDouble();
+                        p.setPrice(price);
+                        productService.update(p);
+                        break;
+                    case "3" :
+                        System.out.println("Entrer une nouvelle catégorie");
+                        String cat = scanner.nextLine();
+                        p.setProductCategory(ProductCategory.valueOf(cat));
+                        productService.update(p);
+                        break;
+                    case "4" :
+                        System.out.println("Entrer une nouvelle taille");
+                        String size = scanner.nextLine();
+                        p.setSize(size);
+                        productService.update(p);
+                        break;
+                    case "5" :
+                        System.out.println("Entrer un nouveau stock");
+                        int stock = scanner.nextInt();
+                        p.setStock(stock);
+                        productService.update(p);
+                        break;
+                    case "0" :
+                        break;
+                    default:
+                        System.out.println("Invalid choice");
+                }
+            } while (!choice.equals("0"));
+        } else {
+            System.out.println("Aucun produit trouvé");
+        }
     }
+
+    private void menuUpdateProduct(){
+        System.out.println("###### Que souhaitez vous modifier ? ######");
+        System.out.println("1. Description");
+        System.out.println("2. Prix");
+        System.out.println("3. Catégorie");
+        System.out.println("4. Taille");
+        System.out.println("5. Stock");
+        System.out.println("0. Quitter");
+    }
+
     private void findProductById(){
         System.out.println("Afficher un produit par son id");
         System.out.println("Id du produit : ");
@@ -167,8 +225,48 @@ public class Ihm {
         customerService.create(o);
     }
     private void updateCustomer(){
-        //TODO updateCustomer
+        System.out.println("###### Fiche client à modifier ######");
+        System.out.println("Saisissez l'id du client ");
+        int id = scanner.nextInt();
+        scanner.nextLine();
+
+        Customer c = customerService.findById(id);
+        if (c != null){
+            String choice;
+            do {
+                menuUpdateCustomer();
+                choice = scanner.nextLine();
+                switch (choice){
+                    case "1" :
+                        System.out.println("Modifier le nom");
+                        String name = scanner.nextLine();
+                        c.setName(name);
+                        customerService.update(c);
+                        break;
+                    case "2" :
+                        System.out.println("Entrer une nouvelle adresse email");
+                        String email = scanner.nextLine();
+                        c.setEmailAddress(email);
+                        customerService.update(c);
+                        break;
+                    case "0" :
+                        break;
+                    default:
+                        System.out.println("Invalid choice");
+                }
+            } while (!choice.equals("0"));
+        } else {
+            System.out.println("Aucun client trouvé");
+        }
     }
+
+    private void menuUpdateCustomer(){
+        System.out.println("###### Que souhaitez vous modifier ? ######");
+        System.out.println("1. Nom");
+        System.out.println("2. Email");
+        System.out.println("0. Quitter");
+    }
+
     private void findCustomerById(){
         System.out.println("Afficher un client par son id");
         System.out.println("Id du client : ");
@@ -225,35 +323,43 @@ public class Ihm {
 //                    scanner.nextLine();
                     Product product = productService.findById(productId);
                     products.add(product);
+                    o.setSaleStatus(SaleStatus.INPROGRESS);
+                    break;
+                case "2" :
+                    for (Product p1 : products){
+                        p1.setStock(p1.getStock()-1);
+                    }
+                    o.setCustomer(customer);
+                    o.setProducts(products);
+                    o.setSaleStatus(SaleStatus.DONE);
+
+                    saleService.create(o);
                     break;
                 case "0" :
+                    o.setSaleStatus(SaleStatus.INPROGRESS);
                     break;
                 default:
                     System.out.println("Invalid choice");
             }
-        } while (!choice.equals("0"));
-
-        o.setCustomer(customer);
-        o.setProducts(products);
-
-        saleService.create(o);
+        } while (!choice.equals("2") && !choice.equals("0"));
 
     }
 
     private void menuVente(){
         System.out.println("###### Menu des ventes ######");
         System.out.println("1. Ajouter un produit par son id");
-        System.out.println("0. Quitter");
-        //TODO Ajouter possibilité d'annuler
+        System.out.println("2. Valider");
+        System.out.println("0. Annuler");
     }
 
     private void salesHistory(){
-        //TODO afficher le détail
-        System.out.println("Liste de toutes les ventes");
+        System.out.println("###### Liste de toutes les ventes ######");
         saleService.findAll();
     }
     private void stockByProduct(){
-        //TODO stockByProduct
+        System.out.println("De quels produits souhaitez vous avoir le stock?");
+        String desc = scanner.nextLine();
+        productService.getStockByProduct(desc);
     }
     private void performanceByProduct(){
         //TODO performanceByProduct

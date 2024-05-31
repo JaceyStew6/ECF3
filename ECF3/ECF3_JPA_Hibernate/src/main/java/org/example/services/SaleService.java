@@ -49,13 +49,15 @@ public class SaleService extends BaseService implements Repository<Vente> {
 
     @Override
     public List<Vente> findAll() {
-        //TODO modifier méthode car ne renvoie que l'emplacement mémoire
         List<Vente> venteList = null;
         session = sessionFactory.openSession();
         Query<Vente> venteQuery = session.createQuery("from Vente ");
         venteList = venteQuery.list();
         for (Vente v: venteList){
-            System.out.println(v);
+            System.out.println("Id de vente : " + v.getSaleId()
+                    + " Statut de vente : " + v.getSaleStatus()
+                    + " Client : " + v.getCustomer()
+                    + " Produits : " + v.getProducts());
         }
         session.close();
         return venteList;

@@ -42,13 +42,13 @@ public class Customer {
         this.emailAddress = emailAddress;
     }
 
-/*    public List<org.example.entities.Sale> getPurchases() {
-        return sales;
+    public List<Vente> getPurchases() {
+        return ventes;
     }
 
-    public void setPurchases(List<org.example.entities.Sale> sales) {
-        this.sales = sales;
-    }*/
+    public void setPurchases(List<Vente> ventes) {
+        this.ventes = ventes;
+    }
 
     @Override
     public String toString() {

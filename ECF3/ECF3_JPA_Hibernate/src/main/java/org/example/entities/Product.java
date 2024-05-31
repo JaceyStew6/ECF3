@@ -17,9 +17,6 @@ public class Product {
     private String size;
     private double price;
     private int stock;
-    /*@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "productSales", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "saleId"))
-    private List<Vente> ventes = new ArrayList<>();*/
 
     @ManyToMany(mappedBy = "products", fetch = FetchType.EAGER)
     private List<Vente> ventes = new ArrayList<>();
